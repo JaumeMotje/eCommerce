@@ -30,4 +30,13 @@ public class CategoryModel {
         return q.getResultList();
     }
 
+    public String getCategoryNameById(int categoryId) {
+        Category category = em.find(Category.class, categoryId);
+        if (category != null) {
+            return category.getName();
+        } else {
+            return null;
+        }
+    }
+    
 }
