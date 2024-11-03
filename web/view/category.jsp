@@ -40,6 +40,46 @@
             margin: 5px 0; /* Spacing between links */
             text-align: center; /* Center the links */
         }
+         table {
+            width: 90%; /* Set table width to 90% */
+            margin: 20px auto; /* Center the table with margin */
+            border-collapse: collapse; /* Collapse borders for cleaner look */
+            background-color: #ffffff; /* White background for table */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        }
+        th, td {
+            padding: 15px; /* Add padding to table cells */
+            text-align: center; /* Center align text */
+            border-bottom: 1px solid #ddd; /* Light bottom border for rows */
+        }
+        th {
+            background-color: #f2f2f2; /* Light gray background for header */
+            color: #333; /* Darker text for headers */
+        }
+        tr:hover {
+            background-color: #f9f9f9; /* Light background on row hover */
+        }
+        img {
+            max-width: 100px; /* Ensure images fit nicely */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Rounded corners for images */
+        }
+        button {
+            background-color: #007bff; /* Blue background for buttons */
+            color: white; /* White text color */
+            border: none; /* Remove borders */
+            padding: 10px 15px; /* Add padding */
+            border-radius: 5px; /* Rounded corners for buttons */
+            cursor: pointer; /* Change cursor on hover */
+            transition: background-color 0.3s; /* Smooth background change */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .cart-controls {
+            display: inline-block; /* Make the cart controls inline */
+            margin-left: 5px; /* Add some margin for spacing */
+        }
     </style>
 
     <script>
@@ -100,7 +140,7 @@
                     for (Product product : products) {
                     %>
                     <tr>
-                        <td><img src="img/products/<%=product.getName()%>.png" alt="<%=product.getName()%>" width="100"></td>
+                        <td><img src="img/products/<%=product.getName()%>.png" alt="<%=product.getName()%>"></td>
                         <td><%=product.getName()%></td>
                         <td><%=product.getDescription()%></td>
                         <td>$<%=String.format("%.2f", product.getPrice())%></td>
@@ -109,9 +149,9 @@
                             <button id="add-to-cart-<%=product.getId()%>" onclick="updateCart('<%=product.getId()%>', 1);">
                                 Add to Cart
                             </button>
-                            
+
                             <!-- Cart Controls (Initially Hidden) -->
-                            <div id="cart-controls-<%=product.getId()%>" style="display: none;">
+                            <div id="cart-controls-<%=product.getId()%>" class="cart-controls" style="display: none;">
                                 <button onclick="updateCart('<%=product.getId()%>', -1)">-</button>
                                 <span id="cart-info-<%=product.getId()%>">Quantity: 1</span>
                                 <button onclick="updateCart('<%=product.getId()%>', 1)">+</button>
