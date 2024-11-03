@@ -43,4 +43,9 @@
 
     </table>
 
+    <!-- Link to View Cart -->
+    <h4>
+       <a href="viewcart.do">View Cart</a>
+    </h4>  
+     
     </body>
