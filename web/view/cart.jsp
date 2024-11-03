@@ -133,9 +133,11 @@
         <h3 id="total-price">Total Price: $<%= String.format("%.2f", totalCartPrice) %></h3>
 
         <h3>
-            <a href="checkout.do">Proceed to Checkout</a>
-            <br>
             <a href="init.do">Continue Shopping</a>
+            <br>
+            <a href="clearcart.do">Clear Cart</a>
+            <br>
+            <a href="checkout.do">Proceed to Checkout</a>
         </h3>
         <%
             }
