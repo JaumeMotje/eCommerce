@@ -71,6 +71,12 @@
             color: #333;
             margin: 20px 0;
         }
+        .item-count{
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0;
+        }
         .action-links {
             text-align: center;
         }
@@ -110,11 +116,21 @@
                     }
 
                     let newTotalPrice = 0;
+                    let newTotalItems = 0; // Initialize total items counter
                     const totalPriceElements = document.querySelectorAll('[id^="total-item-price-"]');
                     totalPriceElements.forEach(el => {
                         newTotalPrice += parseFloat(el.innerText.substring(1));
                     });
+
+                    // Update the total items count by summing quantities from cart-info elements
+                    const quantityElements = document.querySelectorAll('[id^="cart-info-"]');
+                    quantityElements.forEach(el => {
+                        const quantity = parseInt(el.innerText.split(': ')[1]); // Extract the quantity number
+                        newTotalItems += quantity; // Accumulate the total items
+                    });
+                    
                     document.getElementById("total-price").innerText = "Total Price: $" + newTotalPrice.toFixed(2);
+                    document.getElementById("total-items").innerText = "Total Items: " + newTotalItems; // Update total items
                 }
             };
             xhr.send();
@@ -171,11 +187,14 @@
 
         <%
                 double totalCartPrice = 0;
+                int totalQuantity = 0; // Initialize total quantity counter
                 for (ShoppingCartItem item : cartItems) {
                     totalCartPrice += item.getTotalPrice();
+                    totalQuantity += item.getQuantity(); // Accumulate total quantity
                 }
         %>
 
+        <h3 class="item-count" id="total-items">Total Items: <%= totalQuantity %></h3> <!-- Display total items -->
         <h3 class="total-price" id="total-price">Total Price: $<%= String.format("%.2f", totalCartPrice) %></h3>
 
         <div class="action-links">
