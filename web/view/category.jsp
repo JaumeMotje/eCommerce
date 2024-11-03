@@ -1,24 +1,44 @@
+<%@page import="entity.Category"%>
 <%@ page import="entity.Product" %>
 <%@ page import="java.util.List" %>
 
 <head>
     <title>Category - Products</title>
     <style>
+        body {
+            font-family: Arial, sans-serif; /* Sets a cleaner font for the body */
+            background-color: #f4f4f4; /* Light background color for better contrast */
+        }
         table {
             table-layout: fixed;
             width: 80%;
             margin: auto; /* Centers the entire table on the page */
+            border-collapse: collapse; /* Collapses borders for a cleaner look */
         }
         th, td {
             text-align: center; /* Centers the text within the cells */
             vertical-align: middle; /* Centers content vertically */
+            border: 1px solid #ccc; /* Adds a border to table cells */
+            padding: 10px; /* Adds padding to cells */
         }
         img {
             display: block;
             margin: auto; /* Centers the image within the cell */
         }
         p, h2, h3 {
-        text-align: center; /* Centers the heading text */
+            text-align: center; /* Centers the heading text */
+        }
+        .category-links {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff; /* White background for the links table */
+            border-radius: 8px; /* Rounds corners for a nicer look */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .category-link {
+            margin: 5px 0; /* Spacing between links */
+            text-align: center; /* Center the links */
         }
     </style>
 
@@ -43,49 +63,69 @@
             };
             xhr.send();
         }
-
     </script>
 </head>
 
 <body>
     <h2>Products in <%= request.getAttribute("categoryName") %></h2>
     
-    <table width="80%" border="1" cellpadding="5" cellspacing="0">
+    <table>
         <tr>
-            <th>Product</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-        <%
-        List<Product> products = (List<Product>) request.getAttribute("products");
-        for (Product product : products) {
-        %>
-        <tr>
-            <td><img src="img/products/<%=product.getName()%>.png" alt="<%=product.getName()%>" width="100"></td>
-            <td><%=product.getName()%></td>
-            <td><%=product.getDescription()%></td>
-            <td>$<%=product.getPrice()%></td>
-            <td>
-                <!-- Add to Cart Button -->
-                <button id="add-to-cart-<%=product.getId()%>" onclick="updateCart('<%=product.getId()%>', 1);">
-                    Add to Cart
-                </button>
-                
-                <!-- Cart Controls (Initially Hidden) -->
-                <div id="cart-controls-<%=product.getId()%>" style="display: none;">
-                    <button onclick="updateCart('<%=product.getId()%>', -1)">-</button>
-                    <span id="cart-info-<%=product.getId()%>">Quantity: 1</span>
-                    <button onclick="updateCart('<%=product.getId()%>', 1)">+</button>
-                    <button onclick="updateCart('<%=product.getId()%>', -999)">Remove</button>
+            <td width="30%">
+                <div class="category-links">
+                    <h3>Change Category</h3>
+                    <%
+                        List<Category> categories = (List<Category>) request.getAttribute("categories");
+                        for (Category category : categories) {
+                    %>
+                    <div class="category-link">
+                        <a href="category.do?categoryid=<%=category.getId()%>">
+                            <%=category.getName()%>
+                        </a>         
+                    </div>
+                    <% } %>
                 </div>
             </td>
+            <td width="70%">
+                <table>
+                    <tr>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                    <%
+                    List<Product> products = (List<Product>) request.getAttribute("products");
+                    for (Product product : products) {
+                    %>
+                    <tr>
+                        <td><img src="img/products/<%=product.getName()%>.png" alt="<%=product.getName()%>" width="100"></td>
+                        <td><%=product.getName()%></td>
+                        <td><%=product.getDescription()%></td>
+                        <td>$<%=String.format("%.2f", product.getPrice())%></td>
+                        <td>
+                            <!-- Add to Cart Button -->
+                            <button id="add-to-cart-<%=product.getId()%>" onclick="updateCart('<%=product.getId()%>', 1);">
+                                Add to Cart
+                            </button>
+                            
+                            <!-- Cart Controls (Initially Hidden) -->
+                            <div id="cart-controls-<%=product.getId()%>" style="display: none;">
+                                <button onclick="updateCart('<%=product.getId()%>', -1)">-</button>
+                                <span id="cart-info-<%=product.getId()%>">Quantity: 1</span>
+                                <button onclick="updateCart('<%=product.getId()%>', 1)">+</button>
+                                <button onclick="updateCart('<%=product.getId()%>', -999)">Remove</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <script>
+                        updateCart('<%=product.getId()%>', 0); // Check initial quantity for this product
+                    </script>
+                    <% } %>
+                </table>
+            </td>
         </tr>
-        <script>
-            updateCart('<%=product.getId()%>', 0); // Check initial quantity for this product
-        </script>
-        <% } %>
     </table>
 
     <!-- Link to View Cart -->

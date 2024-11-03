@@ -24,6 +24,7 @@ public class categoryAction implements Action {
                 int catId = Integer.parseInt(categoryId);
                 req.setAttribute("products", productModel.retrieveByCategoryId(catId));
                 req.setAttribute("categoryName", categoryModel.getCategoryNameById(catId));
+                req.setAttribute("categories", categoryModel.retrieveAll());
                 ViewManager.nextView(req, resp, "/view/category.jsp");
             } catch (NumberFormatException e) {
                 System.out.println("Invalid category ID format: " + e.getMessage());
